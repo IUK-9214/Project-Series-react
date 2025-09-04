@@ -29,11 +29,11 @@ function RandomColor() {
         setColor(`rgb(${r},${g},${b})`)
 
     }
-    useEffect (()=>{
+    useEffect(() => {
 
-        if(ColorType==='rgb') randomColorGeneratorRGB()
+        if (ColorType === 'rgb') randomColorGeneratorRGB()
         else randomColorGeneratorHex()
-    },[ColorType])
+    }, [ColorType])
 
     return (
 
