@@ -6,12 +6,19 @@ function QuestionContainer() {
 
 
   const [Select, setSelect] = useState(null)
-  const [enablemultiselection , setenablemultiselection]= useState(false);
-  const [multipleId,setmultipleId]=useState([])
+  const [enablemultiselection, setenablemultiselection] = useState(false);
+  const [multipleId, setmultipleId] = useState([])
 
 
+  function hnadleMUltiSelection(currentId) {
 
-  
+    let cpyMultipleId = [...multipleId];
+    const findIndexOfMultipleId = cpyMultipleId.indexOf(currentId)
+    if (findIndexOfMultipleId === -1) cpyMultipleId.push(currentId)
+    else cpyMultipleId.splice(findIndexOfMultipleId, 1)
+    setmultipleId(cpyMultipleId)
+  }
+
 
   const handlesingleclick = (getcurrentId) => {
     setSelect(getcurrentId === Select ? null : getcurrentId)
@@ -20,9 +27,9 @@ function QuestionContainer() {
     <>
 
       <div className='flex h-full w-full items-center justify-center flex-col gap-6 mt-5'>
-          <button className='bg-blue-500 p-2'
-          onClick={()=>enablemultiselection(!enablemultiselection)}
-          >Enable multi selection</button>
+        <button className='bg-blue-500 p-2'
+          onClick={() => setenablemultiselection(!enablemultiselection)}
+        >Enable multi selection</button>
         <div className='w-md '>
 
           {
@@ -30,16 +37,25 @@ function QuestionContainer() {
               <div
                 key={dataItem.id}
                 className='bg-amber-800 mb-5 p-5'>
-                
+
                 <div className='flex justify-around '
-                  onClick={() => handlesingleclick(dataItem.id)} >
+                  onClick={() => enablemultiselection ? hnadleMUltiSelection(dataItem.id) : handlesingleclick(dataItem.id)} >
                   <h3 className='font-bold '>{dataItem.Question}</h3>
                   <span>+</span>
                 </div>
-                {Select === dataItem.id ?
+                {enablemultiselection ?
+                  multipleId.indexOf(dataItem.id) !== -1 && (
+                    <div><p>{dataItem.Answer}</p></div>
+                  ) :
+                  Select === dataItem.id &&
+                  (<div><p>{dataItem.Answer}</p></div>
+                  )
+                }
+
+                {/* {Select === dataItem.id ?
                   <div><p>{dataItem.Answer}</p></div>
                   : null
-                }
+                } */}
               </div>
 
             )) : (<div>data not found</div>)
