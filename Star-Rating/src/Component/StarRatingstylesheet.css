@@ -1,0 +1,11 @@
+.active{
+    color: gold;
+}
+.inactive{
+    color: gray;
+}
+.khan{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
