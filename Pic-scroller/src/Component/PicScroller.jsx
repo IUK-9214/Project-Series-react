@@ -41,36 +41,55 @@ function PicScroller({ url, page, limit }) {
         return <div>Error Occurred !{errormsg}</div>
     }
 
+    function handlePrevious() {
+        setcurrentSlide(currentSlide === 0 ? images.length - 1 : currentSlide - 1)
+    }
+    function handleNext() {
+        setcurrentSlide(currentSlide === images.length - 1 ? 0 : currentSlide + 1)
+    }
+
     return (
 
-        <div className=''>
+        <div className="relative flex justify-center items-center w-[600px] h-[450px]">
+
             <BsArrowLeftCircleFill
-                className=''
+                onClick={handlePrevious}
+                className="absolute left-[1rem] w-[2rem] h-[2rem] text-white drop-shadow-[0_4px_6px_rgba(85,85,85,0.5)]"
+
+
             />
             {images && images.length ?
-                images.map((imageItem) => {
-                  return(
-                    <img
-                        className='w-80 '
-                        key={imageItem.id}
-                        alt={imageItem.download_url}
-                        src={imageItem.download_url}
-                    />)
+                images.map((imageItem, index) => {
+                    return (
+                        <img
+                            className={
+                                currentSlide === index
+                                    ? "rounded-2xl shadow-lg w-full h-full"
+                                    : "hidden"
+                            }
+                            key={imageItem.id}
+                            alt={imageItem.download_url}
+                            src={imageItem.download_url}
+                        />)
                 })
                 : null}
 
             <BsArrowRightCircleFill
-                className=''
+                onClick={handleNext}
+                className='right-[1rem] absolute w-[2rem] h-[2rem] text-white  drop-shadow-[0_4px_6px_#555]'
             />
-            <span className=''>
+            <span className='felx absolute bottom-[1rem]'>
                 {images && images.length ?
                     images.map((_, index) => {
-                        <button
+                        return (<button
                             key={index}
-                            className=''
+                            className={currentSlide === index ?"bg-white h-[15px] w-[15px] rounded-md border-none outline-none mx-[0.2rem] cursor-pointer":
+                                "bg-gray-700 h-[15px] w-[15px] rounded-md border-none outline-none mx-[0.2rem] cursor-pointer"
+                            }
+                            onClick={()=>setcurrentSlide(index)}
                         >
 
-                        </button>
+                        </button>)
                     })
                     : null}
             </span>
